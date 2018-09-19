@@ -37,7 +37,7 @@ class AppsResource:
         """Handles POST requests."""
 
         user = req.context["user"]
-        resp.body = f"User Found: {user["username"]}"
+        resp.body = f"User Found: {user['username']}"
 
 
 api = falcon.API(middleware=[auth_middleware])
