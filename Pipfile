@@ -9,6 +9,8 @@ gunicorn = "*"
 celery = "*"
 kubernetes = "*"
 records = "*"
+docker = "*"
+falcon = "*"
 
 [dev-packages]
 
