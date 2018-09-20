@@ -19,6 +19,7 @@ services:
     environment: &env
       - CELERY_BROKER=amqp://rabbit
       - DATABASE_URL=postgres://postgres:postgres@postgres:5432
+      - PYTHONDONTWRITEBYTECODE=1
     volumes: &code
       - .:/app
   worker:
@@ -27,6 +28,7 @@ services:
     command: ["celery", "-A", "bruceguts.tasks", "worker", "-P", "gevent", "-c", "1000", "--loglevel=info"]
     environment: *env
     depends_on: *services
+    privileged: true
   flower:
     build: .
     volumes: *code

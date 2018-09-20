@@ -5,10 +5,11 @@ COPY . /app
 # Install curl.
 RUN apt update
 RUN apt install curl -y
+RUN apt install git -y
 
-# Install pack.
-RUN curl -LO https://github.com/buildpack/pack/releases/download/v0.0.2/pack-linux
-RUN mv pack-linux /usr/local/bin/pack
-RUN chmod +x /usr/local/bin/pack
+RUN apt install docker.io -y
+RUN service docker start
+
+VOLUME /var/lib/docker
 
 CMD bash

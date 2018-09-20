@@ -9,15 +9,20 @@ gunicorn = "*"
 celery = {version = "*", extras = ["gevent", "elasticsearch", "librabbitmq"]}
 kubernetes = "*"
 records = "*"
-docker = "*"
 falcon = "*"
 falcon-auth = "*"
 "psycopg2-binary" = "*"
 logme = "*"
 flower = "*"
 pywin32 = {version="*", sys_platform = "== 'win32'"}
+"delegator.py" = "*"
+docker = "*"
 
 [dev-packages]
+black = "*"
 
 [requires]
 python_version = "3.7"
+
+[pipenv]
+allow_prereleases = true
