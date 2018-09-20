@@ -1,10 +1,14 @@
 # bruce-server
 Bruce's guts.
 
+![model](https://github.com/bruce-project/bruce-server/raw/master/sql/model.png)
 
-## Thoughts
+## Running the Server
 
-- Postgres, for data storage.
-- Celery, rabbitmq-backed? for tasks.
-- Records for SQL transactions.
-- Kubernetes client for Python.
+    $ docker-compose up
+    
+## Components
+
+- Postgres (Data Storage)
+- RabbitMQ (Task Queue, Celery)
+- HTTP REST API: Falcon Web Framework
