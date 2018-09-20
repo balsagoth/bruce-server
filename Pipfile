@@ -6,7 +6,7 @@ name = "pypi"
 [packages]
 flask = "*"
 gunicorn = "*"
-celery = {version = "*", extras = ["gevent", "elasticsearch", "librabbitmq"]}
+celery = {version = "*", extras = ["gevent", "elasticsearch"]}
 kubernetes = "*"
 records = "*"
 falcon = "*"
@@ -14,7 +14,7 @@ falcon-auth = "*"
 "psycopg2-binary" = "*"
 logme = "*"
 flower = "*"
-pywin32 = {version="*", sys_platform = "== 'win32'"}
+#pywin32 = {version="*", sys_platform = "== 'win32'"}
 "delegator.py" = "*"
 docker = "*"
 

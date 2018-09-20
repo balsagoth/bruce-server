@@ -8,9 +8,10 @@ import logme
 
 from .env import BUILDPACKS_DIR, HEROKUISH_IMAGE
 
+
 # docker run --rm -v $(pwd)/node-js-getting-started:/tmp/app gliderlabs/herokuish /bin/herokuish buildpack build
 @logme.log
-def build(*, repo_url, environ=None, logger):
+def build(*, repo_url, environ=None, logger=None):
     if environ is None:
         environ = {}
 
