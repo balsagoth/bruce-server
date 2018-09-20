@@ -15,6 +15,18 @@ class Database:
             self.initialize()
 
     @property
+    def config(self):
+        return self.db.query("SELECT * FROM config;").first(as_dict=True, default={})
+
+    @config.setter
+    def config(self, other):
+        # Make sure this is a dictionary.
+        assert hasattr(other, "keys")
+
+        for item in other:
+            self.db.query("UPDATE config SET :k = :v", k=item, v=other[item])
+
+    @property
     def schemas(self):
         # Get the schemas.
         for root, _, files in os.walk(SQL_SCHEMA_PATH):
