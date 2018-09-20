@@ -4,12 +4,13 @@ services:
   postgres:
     image: postgres
   rabbit:
-    image: "rabbitmq:latest"
+    image: "rabbitmq:3-management"
     ports:
       - "5672:5672"
+      - "15672:15672"
   web:
     build: .
-    command: ["gunicorn", "bruceguts.http:app", "-k", "gevent", "-b", "0.0.0.0:80"]
+    command: ["gunicorn", "bruceguts.http:api", "-k", "gevent", "-b", "0.0.0.0:80"]
     ports:
       - "8080:80"
     depends_on:  &services
@@ -23,7 +24,7 @@ services:
   worker:
     build: .
     volumes: *code
-    command: ["celery", "-A", "bruceguts.tasks", "worker", "--loglevel=info"]
+    command: ["celery", "-A", "bruceguts.tasks", "worker", "-P", "gevent", "-c", "1000", "--loglevel=info"]
     environment: *env
     depends_on: *services
   flower:
