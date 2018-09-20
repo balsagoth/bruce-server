@@ -24,7 +24,7 @@ class Database:
         assert hasattr(other, "keys")
 
         for item in other:
-            self.db.query("UPDATE config SET :k = :v", k=item, v=other[item])
+            self.db.query("UPDATE config SET :k = :v;", k=item, v=other[item])
 
     @property
     def schemas(self):
