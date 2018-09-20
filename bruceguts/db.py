@@ -12,7 +12,7 @@ class Database:
         self.db = records.Database(db_url=self.db_url)
 
         if self.is_fresh:
-            self.initialize()
+            self.migrate()
 
     @property
     def config(self):
@@ -33,15 +33,15 @@ class Database:
             for _file in files:
                 yield f"{root}/{_file}"
 
-    def initialize(self):
+    def migrate(self):
         self.logger.info("Initializing database!")
 
         for schema in sorted(self.schemas):
             self.logger.info(f"Applying {schema!r}!")
 
             self.db.query_file(schema)
-            # TODO: assert was successful.
-            # TODO: add logging.
+
+            self.logger.info(f"Applied {schema!r}!")
 
     @property
     def is_fresh(self):
@@ -53,6 +53,12 @@ class Database:
                 table_type='BASE TABLE' AND table_schema='public';
         """
         return not bool(len(self.db.query(q, fetchall=True)))
+
+    @property
+    def apps(self):
+        self.logger.info("Checking for apps...")
+        # return []
+        return self.db.query("SELECT * from apps;", fetchall=True)
 
 
 db = Database(db_url=DATABASE_URL)
