@@ -10,7 +10,7 @@ services:
       - "15672:15672"
   web:
     build: .
-    command: ["gunicorn", "bruceguts.http:api", "-k", "gevent", "-b", "0.0.0.0:80"]
+    command: ["gunicorn", "bruceguts.http:api", "-k", "gevent", "-b", "0.0.0.0:80", "--log-level=info"]
     ports:
       - "8080:80"
     depends_on:  &services
@@ -30,7 +30,7 @@ services:
   flower:
     build: .
     volumes: *code
-    command: ["celery", "flower", "-A", "bruceguts.tasks", "worker", "--loglevel=info", "--address=0.0.0.0", "--port=5555"]
+    command: ["celery", "flower", "-A", "bruceguts.tasks", "worker", "--address=0.0.0.0", "--port=5555", "--loglevel=info",]
     ports:
       - "5555:5555"
     environment: *env

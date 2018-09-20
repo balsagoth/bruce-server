@@ -1,8 +1,8 @@
 import falcon
-
-
-import falcon
 from falcon_auth import FalconAuthMiddleware, BasicAuthBackend, TokenAuthBackend
+
+from .db import db
+
 # https://github.com/loanzen/falcon-auth
 
 
