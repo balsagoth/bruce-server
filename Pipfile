@@ -17,6 +17,7 @@ flower = "*"
 pywin32 = {version="*", sys_platform = "== 'win32'"}
 "delegator.py" = "*"
 docker = "*"
+"boto3" = "*"
 
 [dev-packages]
 black = "*"

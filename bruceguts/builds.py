@@ -6,7 +6,8 @@ import delegator
 import docker
 import logme
 
-from .env import BUILDPACKS_DIR, HEROKUISH_IMAGE
+# from .env import BUILDPACKS_DIR, HEROKUISH_IMAGE
+from .env import HEROKUISH_IMAGE
 
 # docker run --rm -v $(pwd)/node-js-getting-started:/tmp/app gliderlabs/herokuish /bin/herokuish buildpack build
 @logme.log
@@ -48,10 +49,12 @@ def build(*, repo_url, environ=None, logger):
     container_id = c.api.create_container(
         HEROKUISH_IMAGE,
         "/bin/herokuish buildpack build",
-        volumes=["/tmp/app", "/tmp/buildpacks"],
+        # volumes=["/tmp/app", "/tmp/buildpacks"],
+        volumes=["/tmp/app"],
         host_config=docker.types.HostConfig(
             version=8,
-            binds=[f"{tmp_dir}:/tmp/app", f"{BUILDPACKS_DIR}:/tmp/buildpacks"],
+            # binds=[f"{tmp_dir}:/tmp/app", f"{BUILDPACKS_DIR}:/tmp/buildpacks"],
+            binds=[f"{tmp_dir}:/tmp/app"],
         ),
     )
 

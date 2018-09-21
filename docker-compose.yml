@@ -16,24 +16,71 @@ services:
     depends_on:  &services
       - postgres
       - rabbit
+      - minio1
+      - minio2
+      - minio3
+      - minio4
     environment: &env
       - CELERY_BROKER=amqp://rabbit
       - DATABASE_URL=postgres://postgres:postgres@postgres:5432
       - PYTHONDONTWRITEBYTECODE=1
-    volumes: &code
+      - MINIO_URL=http://minio1:9000
+      - MINIO_ACCESS_KEY=brucebuilds
+      - MINIO_SECRET_KEY=brucebuilds
+    volumes: &vol
       - .:/app
   worker:
     build: .
-    volumes: *code
+    volumes: *vol
     command: ["celery", "-A", "bruceguts.tasks", "worker", "-P", "gevent", "-c", "1000", "--loglevel=info"]
     environment: *env
     depends_on: *services
     privileged: true
   flower:
     build: .
-    volumes: *code
+    volumes: *vol
     command: ["celery", "flower", "-A", "bruceguts.tasks", "worker", "--address=0.0.0.0", "--port=5555", "--loglevel=info",]
     ports:
       - "5555:5555"
     environment: *env
     depends_on: *services
+
+  minio1:
+    image: minio/minio
+    volumes:
+    - builds1:/export
+    ports:
+    - "9001:9000"
+    environment: *env
+    command: server http://minio{1...4}/export
+  minio2:
+    image: minio/minio
+    volumes:
+    - builds2:/export
+    ports:
+    - "9002:9000"
+    environment: *env
+    command: server http://minio{1...4}/export
+  minio3:
+    image: minio/minio
+    volumes:
+    - builds3:/export
+    ports:
+    - "9003:9000"
+    environment: *env
+    command: server http://minio{1...4}/export
+  minio4:
+    image: minio/minio
+    volumes:
+    - builds4:/export
+    ports:
+    - "9004:9000"
+    environment: *env
+    command: server http://minio{1...4}/export
+
+
+volumes:
+  builds1:
+  builds2:
+  builds3:
+  builds4:
