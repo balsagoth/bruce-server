@@ -198,4 +198,5 @@ class S3Key(object):
 
 
 # Connect to our bucket.
-bucket = get("builds", create=True)
+builds = get("builds", create=True)
+caches = get("caches", create=True)

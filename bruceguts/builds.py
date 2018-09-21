@@ -6,8 +6,9 @@ import delegator
 import docker
 import logme
 
-# from .env import BUILDPACKS_DIR, HEROKUISH_IMAGE
-from .env import HEROKUISH_IMAGE
+from .env import SUBDOCKER_STORAGE_DIR, HEROKUISH_IMAGE
+
+# from .env import HEROKUISH_IMAGE
 
 # docker run --rm -v $(pwd):/tmp/app gliderlabs/herokuish /bin/herokuish buildpack build
 @logme.log
@@ -46,11 +47,17 @@ def build(*, repo_url, environ=None, logger):
 
     # docker run gliderlabs/herokuish /bin/herokuish buildpack build
     logger.info(f"Running build {build_id!r}...")
+
+    # TODO: store image.
+
     container_id = c.api.create_container(
         HEROKUISH_IMAGE,
-        f"/bin/herokuish buildpack build {build_id}",
+        f"/bin/herokuish buildpack build {build_id}; /bin/herokuish slug generate",
         volumes=["/tmp/app"],
-        host_config=docker.types.HostConfig(version=8, binds=[f"{tmp_dir}:/tmp/app"]),
+        host_config=docker.types.HostConfig(
+            version=8,
+            binds=[f"{tmp_dir}:/tmp/app", f"{SUBDOCKER_STORAGE_DIR}:/var/lib/docker"],
+        ),
     )
 
     container = c.containers.get(container_id)
