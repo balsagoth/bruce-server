@@ -1,6 +1,6 @@
-# bruce-server
+# [Bruce Project](https://github.com/bruce-project): Server
 
-Bruce's guts. *See the [meta repository](https://github.com/bruce-project/meta) for more information.*
+Bruce's primary guts. *See the [meta repository](https://github.com/bruce-project/meta) for more information.*
 
 ![model](https://github.com/bruce-project/bruce-server/raw/master/sql/model.png)
 
