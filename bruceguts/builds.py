@@ -9,7 +9,7 @@ import logme
 # from .env import BUILDPACKS_DIR, HEROKUISH_IMAGE
 from .env import HEROKUISH_IMAGE
 
-# docker run --rm -v $(pwd)/node-js-getting-started:/tmp/app gliderlabs/herokuish /bin/herokuish buildpack build
+# docker run --rm -v $(pwd):/tmp/app gliderlabs/herokuish /bin/herokuish buildpack build
 @logme.log
 def build(*, repo_url, environ=None, logger):
     if environ is None:
@@ -48,14 +48,9 @@ def build(*, repo_url, environ=None, logger):
     logger.info(f"Running build {build_id!r}...")
     container_id = c.api.create_container(
         HEROKUISH_IMAGE,
-        "/bin/herokuish buildpack build",
-        # volumes=["/tmp/app", "/tmp/buildpacks"],
+        f"/bin/herokuish buildpack build {build_id}",
         volumes=["/tmp/app"],
-        host_config=docker.types.HostConfig(
-            version=8,
-            # binds=[f"{tmp_dir}:/tmp/app", f"{BUILDPACKS_DIR}:/tmp/buildpacks"],
-            binds=[f"{tmp_dir}:/tmp/app"],
-        ),
+        host_config=docker.types.HostConfig(version=8, binds=[f"{tmp_dir}:/tmp/app"]),
     )
 
     container = c.containers.get(container_id)
