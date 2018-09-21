@@ -52,7 +52,7 @@ def build(*, repo_url, environ=None, logger):
 
     container_id = c.api.create_container(
         HEROKUISH_IMAGE,
-        f"/bin/herokuish buildpack build {build_id}; /bin/herokuish slug generate",
+        f"/bin/herokuish buildpack build {build_id}; /bin/herokuish slug generate; /bin/herokuish slug export",
         volumes=["/tmp/app"],
         host_config=docker.types.HostConfig(
             version=8,
